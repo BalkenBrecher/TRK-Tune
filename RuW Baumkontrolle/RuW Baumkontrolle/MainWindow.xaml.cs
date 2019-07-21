@@ -49,7 +49,7 @@ namespace RuW_Baumkontrolle
 
         private void Startmethoden()
         {
-            L_Baeume_Los2_Neu = L_Baeume_Los2;
+            
 
             lbl_Aktuelles_Datum.Content = DateTime.Today.ToString("dd.MM.yyyy");
             Pruefe_Lokale_Listen();
@@ -77,26 +77,55 @@ namespace RuW_Baumkontrolle
             if (cBox_Baeume.SelectedIndex != -1)
             {
                 //
-                //  0. Baumnummer
-                //  1. Alter
-                //  2. Höhe
-                //  3. Durchmesser in 1,3m Höhe
-                //  4. Kronendurchmesser
-                //  5. ---
-                //
+                //  0.  Baumnummer
+                //  1.  Alter
+                //  2.  Höhe
+                //  3.  Durchmesser in 1,3m Höhe
+                //  4.  Kronendurchmesser
+                //  5.  Baumart Latein
+                //  6.  Baumart Deutsch
+                //  7.  Baum nicht mehr vorhanden
+                //  8.  Totholzbeseitigung
+                //  9.  Lichte Höhe 2,5m
+                //  10. Lichte Hö he 4,5m
+                //  11. Baumfällung
+                //  12. Krone einkürzen/verschneiden
+                //  13. Leiter benötigt
+                //  14. Hebebühne benötigt
                 GroupBox_Baum.IsEnabled = true;
                 string Baum = cBox_Baeume.SelectedItem.ToString();
-                foreach (string s in L_Baeume_Los2)
+                for(int i = 0; i < L_Baeume_Los2.Count; i++) //(string s in L_Baeume_Los2)
                 {
+                    string s = L_Baeume_Los2[i];
                     if (s.Contains(Baum))
                     {
-                        aILB = cBox_Baeume.SelectedIndex;
+                        aILB = i;
                         string[] Baumdaten = s.Split('|');
                         lbl_Baumnummer.Content = Baumdaten[0];
                         lbl_Alter.Content = Baumdaten[1];
                         lbl_Hoehe.Content = Baumdaten[2];
                         lbl_Durchmesser.Content = Baumdaten[3];
                         lbl_Kronendruchmesser.Content = Baumdaten[4];
+                        lbl_Lat_Name.Content = Baumdaten[5];
+                        lbl_Deu_Name.Content = Baumdaten[6];
+                        Console.WriteLine("Baumdaten Count: " + Baumdaten.Count());
+                        if(Baumdaten.Count() > 10)
+                        {
+                            if (Baumdaten[6].Contains("True")) chkB_1_Baum_Nicht_Da.IsChecked = true; else chkB_1_Baum_Nicht_Da.IsChecked = false;
+                            if (Baumdaten[7].Contains("True")) chkB_2_Totholzbeseitigung.IsChecked = true; else chkB_2_Totholzbeseitigung.IsChecked = false;
+                            if (Baumdaten[8].Contains("True")) chkB_3_Lichte_Hoehe_25.IsChecked = true; else chkB_3_Lichte_Hoehe_25.IsChecked = false;
+                            if (Baumdaten[9].Contains("True")) chkB_4_Lichte_Hoehe_45.IsChecked = true; else chkB_4_Lichte_Hoehe_45.IsChecked = false;
+                            if (Baumdaten[10].Contains("True")) chkB_5_Lichtraumprofil.IsChecked = true; else chkB_5_Lichtraumprofil.IsChecked = false;
+                            if (Baumdaten[11].Contains("True")) chkB_6_Baumfaellung.IsChecked = true; else chkB_6_Baumfaellung.IsChecked = false;
+                            if (Baumdaten[12].Contains("True")) chkB_7_Krone_Kuerzen.IsChecked = true; else chkB_7_Krone_Kuerzen.IsChecked = false;
+                            if (Baumdaten[13].Contains("True")) chkB_8_Leiter_Benoetigt.IsChecked = true; else chkB_8_Leiter_Benoetigt.IsChecked = false;
+                            if (Baumdaten[14].Contains("True")) chkB_9_Hebebuehne_Benoetigt.IsChecked = true; else chkB_9_Hebebuehne_Benoetigt.IsChecked = false;
+                        }
+                        else
+                        {
+                            chkB_1_Baum_Nicht_Da.IsChecked = false; chkB_2_Totholzbeseitigung.IsChecked = false; chkB_3_Lichte_Hoehe_25.IsChecked = false; chkB_4_Lichte_Hoehe_45.IsChecked = false;
+                            chkB_5_Lichtraumprofil.IsChecked = false; chkB_6_Baumfaellung.IsChecked = false; chkB_7_Krone_Kuerzen.IsChecked = false; chkB_8_Leiter_Benoetigt.IsChecked = false; chkB_9_Hebebuehne_Benoetigt.IsChecked = false;
+                        }
                         break;
                     }
                 }   //  Ende foreach
@@ -116,7 +145,7 @@ namespace RuW_Baumkontrolle
                     L_Listen.Add(file.Name);
                     if(file.Name.Contains("Los1"))
                         L_Baeume_Los1 = Lese_Baeume(file.Name);
-                    if (file.Name.Contains("Los2"))
+                    if (file.Name.Contains("SavedList"))
                         L_Baeume_Los2 = Lese_Baeume(file.Name);
                     if (file.Name.Contains("Los3"))
                         L_Baeume_Los3 = Lese_Baeume(file.Name);
@@ -207,7 +236,28 @@ namespace RuW_Baumkontrolle
 
         private void Btn_Baum_Speichern_Click(object sender, RoutedEventArgs e)
         {
-            L_Baeume_Los2_Neu[aILB] = Erstelle_Neue_Eintrag();
+            L_Baeume_Los2_Neu = L_Baeume_Los2;
+            if(L_Baeume_Los2_Neu.Count > 0) {
+                string tmp = L_Baeume_Los2_Neu[aILB];
+                L_Baeume_Los2_Neu[aILB] = tmp + Erstelle_Neue_Eintrag();
+            }
+
+        }
+
+        private void Btn_Liste_Speichern_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (TextWriter tw = new StreamWriter("SavedList.txt"))
+                {
+                    foreach (String s in L_Baeume_Los2_Neu)
+                        tw.WriteLine(s);
+                }
+            }
+            catch(Exception e_Speichere_Datei)
+            {
+                MessageBox.Show("Fehler beim speichern: \n\n" + e_Speichere_Datei);
+            }
         }
     }
 }
