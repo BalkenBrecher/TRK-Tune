@@ -8,11 +8,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace RuW_Baumkontrolle
 {
@@ -27,19 +29,21 @@ namespace RuW_Baumkontrolle
         bool b_Neue_Liste = true;
 
         string aVz = Directory.GetCurrentDirectory();
+        string aktLos = "";
 
         int aILB = -1;  //  Aktueller Index der Baumliste
 
-        List<string> L_Listen = new List<string>();
-        List<string> L_Baeume_Los1 = new List<string>();
-        List<string> L_Baeume_Los2 = new List<string>(); List<string> L_Baeume_Los2_Neu = new List<string>();
-        List<string> L_Baeume_Los3 = new List<string>();
-        List<string> L_Baeume_Los4 = new List<string>();
-        List<string> L_Baeume_Los5 = new List<string>();
-        List<string> L_Baeume_Los6 = new List<string>();
-        List<string> L_Baeume_Los7 = new List<string>();
-        List<string> L_Baeume_Los8 = new List<string>();
-        List<string> L_Baeume_Los9 = new List<string>();
+        List<string> L_Listen       = new List<string>();
+        List<string> L_Temp         = new List<string>();
+        List<string> L_Baeume_Los1  = new List<string>();
+        List<string> L_Baeume_Los2  = new List<string>(); List<string> L_Baeume_Los2_Neu = new List<string>();
+        List<string> L_Baeume_Los3  = new List<string>();
+        List<string> L_Baeume_Los4  = new List<string>();
+        List<string> L_Baeume_Los5  = new List<string>();
+        List<string> L_Baeume_Los6  = new List<string>();
+        List<string> L_Baeume_Los7  = new List<string>();
+        List<string> L_Baeume_Los8  = new List<string>();
+        List<string> L_Baeume_Los9  = new List<string>();
 
         public MainWindow()
         {
@@ -48,18 +52,16 @@ namespace RuW_Baumkontrolle
         }
 
         private void Startmethoden()
-        {
-            
-
+        {   
             lbl_Aktuelles_Datum.Content = DateTime.Today.ToString("dd.MM.yyyy");
-            Pruefe_Lokale_Listen();
+            Pruefe_Lokale_Listen("");
         }
 
         private void Waehle_Los(object sender, SelectionChangedEventArgs e)
         {
             if(cBox_Los.SelectedIndex != -1)
             { 
-                string text = cBox_Los.SelectedItem.ToString(); text = text.Substring(text.LastIndexOf(':') + 1);
+                string text = cBox_Los.SelectedItem.ToString(); aktLos = text.Substring(text.LastIndexOf(':') + 1);
                 cBox_Baeume.Items.Clear();
                 if (text.Contains("Los 1"))
                     foreach (string s in L_Baeume_Los1)
@@ -134,38 +136,62 @@ namespace RuW_Baumkontrolle
                 GroupBox_Baum.IsEnabled = false;
         }   //  Ende Funktion Waehle_Baum
 
-        private void Pruefe_Lokale_Listen()
+        private void Pruefe_Lokale_Listen(string _Liste)
         {
-            try
+            if(_Liste.Length <= 0)
             {
-                DirectoryInfo d     = new DirectoryInfo(aVz);
-                FileInfo[] Files    = d.GetFiles("*.txt");
-                foreach (FileInfo file in Files)
+                try
                 {
-                    L_Listen.Add(file.Name);
-                    if(file.Name.Contains("Los1"))
-                        L_Baeume_Los1 = Lese_Baeume(file.Name);
-                    if (file.Name.Contains("SavedList"))
-                        L_Baeume_Los2 = Lese_Baeume(file.Name);
-                    if (file.Name.Contains("Los3"))
-                        L_Baeume_Los3 = Lese_Baeume(file.Name);
-                    if (file.Name.Contains("Los4"))
-                        L_Baeume_Los4 = Lese_Baeume(file.Name);
-                    if (file.Name.Contains("Los5"))
-                        L_Baeume_Los5 = Lese_Baeume(file.Name);
-                    if (file.Name.Contains("Los6"))
-                        L_Baeume_Los6 = Lese_Baeume(file.Name);
-                    if (file.Name.Contains("Los7"))
-                        L_Baeume_Los7 = Lese_Baeume(file.Name);
-                    if (file.Name.Contains("Los8"))
-                        L_Baeume_Los8 = Lese_Baeume(file.Name);
-                    if (file.Name.Contains("Los9"))
-                        L_Baeume_Los9 = Lese_Baeume(file.Name);
+                    DirectoryInfo d = new DirectoryInfo(aVz);
+                    FileInfo[] Files = d.GetFiles("*.txt");
+                    foreach (FileInfo file in Files)
+                    {
+                        L_Listen.Add(file.Name);
+                        if (file.Name.Contains("Los1"))
+                            L_Baeume_Los1 = Lese_Baeume(file.Name);
+                        if (file.Name.Contains("Los2"))
+                            L_Baeume_Los2 = Lese_Baeume(file.Name);
+                        if (file.Name.Contains("Los3"))
+                            L_Baeume_Los3 = Lese_Baeume(file.Name);
+                        if (file.Name.Contains("Los4"))
+                            L_Baeume_Los4 = Lese_Baeume(file.Name);
+                        if (file.Name.Contains("Los5"))
+                            L_Baeume_Los5 = Lese_Baeume(file.Name);
+                        if (file.Name.Contains("Los6"))
+                            L_Baeume_Los6 = Lese_Baeume(file.Name);
+                        if (file.Name.Contains("Los7"))
+                            L_Baeume_Los7 = Lese_Baeume(file.Name);
+                        if (file.Name.Contains("Los8"))
+                            L_Baeume_Los8 = Lese_Baeume(file.Name);
+                        if (file.Name.Contains("Los9"))
+                            L_Baeume_Los9 = Lese_Baeume(file.Name);
+                    }
                 }
-            }
-            catch(Exception e_Pruefe_Lokale_Liste)
+                catch (Exception e_Pruefe_Lokale_Liste)
+                {
+                    MessageBox.Show("Fehler beim Prüfen der Lokalen Dateien:\n\n" + e_Pruefe_Lokale_Liste);
+                }   //  Ende catch
+            }   //  Ende if, ob ein String übergeben wurde
+            else
             {
-                MessageBox.Show("Fehler beim Prüfen der Lokalen Dateien:\n\n" + e_Pruefe_Lokale_Liste);
+                if (_Liste.Contains("Los1"))
+                    L_Baeume_Los1 = L_Temp;
+                if (_Liste.Contains("Los2"))
+                    L_Baeume_Los2 = L_Temp;
+                if (_Liste.Contains("Los3"))
+                    L_Baeume_Los3 = L_Temp;
+                if (_Liste.Contains("Los4"))
+                    L_Baeume_Los4 = L_Temp;
+                if (_Liste.Contains("Los5"))
+                    L_Baeume_Los5 = L_Temp;
+                if (_Liste.Contains("Los6"))
+                    L_Baeume_Los6 = L_Temp;
+                if (_Liste.Contains("Los7"))
+                    L_Baeume_Los7 = L_Temp;
+                if (_Liste.Contains("Los8"))
+                    L_Baeume_Los8 = L_Temp;
+                if (_Liste.Contains("Los9"))
+                    L_Baeume_Los9 = L_Temp;
             }
         }
 
@@ -246,17 +272,54 @@ namespace RuW_Baumkontrolle
 
         private void Btn_Liste_Speichern_Click(object sender, RoutedEventArgs e)
         {
-            try
+            DialogResult result = MessageBox.Show("Soll eine neue Liste mit dem Namen:\n\nBaumkontrolle_" + aktLos + "_" + lbl_Aktuelles_Datum.Content + "\n\nangelegt werden?",
+                                                                 "Neue Liste anlegen",
+                                                                 MessageBoxButtons.YesNo);
+            if (result == System.Windows.Forms.DialogResult.Yes)
             {
-                using (TextWriter tw = new StreamWriter("SavedList.txt"))
+                try
                 {
-                    foreach (String s in L_Baeume_Los2_Neu)
-                        tw.WriteLine(s);
+                    if (b_Neue_Liste)
+                    {
+                        using (TextWriter tw = new StreamWriter("Baumkontrolle_" + aktLos + "_" + lbl_Aktuelles_Datum.Content + ".txt"))
+                        {
+                            foreach (String s in L_Baeume_Los2_Neu)
+                                tw.WriteLine(s);
+                        }
+                        MessageBox.Show("Die Liste wurde erfolgreich angelegt.\nSie ist unter folgendem Pfad zu finden:\n\n" + aVz);
+                    }
                 }
-            }
-            catch(Exception e_Speichere_Datei)
+                catch (Exception e_Speichere_Datei)
+                {
+                    MessageBox.Show("Fehler beim speichern: \n\n" + e_Speichere_Datei);
+                }   //  Ende catch
+            }   //  Ende ob "Ja" gewählt wurde   
+        }   //  Ende Mehtode Liste speichern
+
+        private void CBox_Vorhandene_Liste_Laden_Checked(object sender, RoutedEventArgs e)
+        {
+            Stream myStream = null; 
+            OpenFileDialog theDialog = new OpenFileDialog();
+            theDialog.Title = "Eine bestehende Baumkontrollliste laden";
+            theDialog.Filter = "txt Dateien|*.txt";
+            theDialog.InitialDirectory = aVz;
+            if (theDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                MessageBox.Show("Fehler beim speichern: \n\n" + e_Speichere_Datei);
+                try
+                {
+                    if ((myStream = theDialog.OpenFile()) != null)
+                    {
+                        using (myStream)
+                        {
+                            L_Temp = Lese_Baeume(theDialog.FileName);
+                            Pruefe_Lokale_Listen(theDialog.FileName);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Fehler! Konnte die Datei nicht lesen. Eine genauere Fehlerbeschreibung:\n\n" + ex.Message);
+                }
             }
         }
     }
