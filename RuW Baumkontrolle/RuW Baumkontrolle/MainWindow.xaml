@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RuW_Baumkontrolle"
         mc:Ignorable="d"
-        Title="Ritter &amp; Wagner GbR - Baumkontrolle" Height="586.103" Width="1279.428" WindowStartupLocation="CenterScreen" Icon="Bilder/Plant.ico" FontSize="16" ResizeMode="NoResize">
+        Title="Ritter &amp; Wagner GbR - Baumkontrolle" Height="586.103" Width="1736.173" WindowStartupLocation="CenterScreen" Icon="Bilder/Plant.ico" FontSize="16" ResizeMode="NoResize">
     <Grid Height="548" VerticalAlignment="Top">
         <ComboBox x:Name="cBox_Los" HorizontalAlignment="Left" Margin="20,30,0,0" VerticalAlignment="Top" Width="298" Height="36" SelectionChanged="Waehle_Los" FontSize="16" IsReadOnly="True">
             <ComboBoxItem Content="Los 1" HorizontalAlignment="Left" Width="296"/>
@@ -20,7 +20,7 @@
         </ComboBox>
         <ComboBox x:Name="cBox_Baeume" HorizontalAlignment="Left" Margin="341,30,0,0" VerticalAlignment="Top" Width="298" Height="36" SelectionChanged="Waehle_Baum" FontSize="16" IsReadOnly="True"/>
 
-        <GroupBox Header="Bestandsaufnahme im Detail" Height="436"  Name="GroupBox_Baum" VerticalAlignment="Top" FontSize="14" IsEnabled="False" Margin="20,99,367,0">
+        <GroupBox Header="Bestandsaufnahme im Detail" Height="436"  Name="GroupBox_Baum" VerticalAlignment="Top" FontSize="14" IsEnabled="False" Margin="20,99,190,0">
             <Grid>
                 <CheckBox Content="Totholzbeseitigung" Height="22" HorizontalAlignment="Left" Margin="10,40,0,0" x:Name="chkB_2_Totholzbeseitigung" VerticalAlignment="Top" FontSize="18" Width="190" />
                 <CheckBox Content="Lichte Höhe (2,5m)" Height="22" HorizontalAlignment="Left" Margin="10,70,0,0" x:Name="chkB_3_Lichte_Hoehe_25" VerticalAlignment="Top" FontSize="18" Width="190" />
@@ -50,14 +50,14 @@
                 <Label x:Name="lbl_Deu_Name12" Content="Deutscher Name:" HorizontalAlignment="Left" Margin="274,100,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="169"/>
             </Grid>
         </GroupBox>
-        <Image x:Name="image" HorizontalAlignment="Left" Height="237" Margin="963,47,0,0" VerticalAlignment="Top" Width="240" Source="Bilder/Baum.png" Stretch="Fill"/>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="237" Margin="1480,10,0,0" VerticalAlignment="Top" Width="240" Source="Bilder/Baum.png" Stretch="Fill"/>
         <Label x:Name="label1" Content="Auswahl des Loses (AK)" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Label x:Name="label1_Copy" Content="Auswahl der Baumnummer" HorizontalAlignment="Left" Margin="346,0,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Label x:Name="label1_Copy1" Content="Aktuelles Datum:" HorizontalAlignment="Left" Margin="1049,0,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Label x:Name="lbl_Aktuelles_Datum" Content="xx.xx.xxxx" HorizontalAlignment="Left" Margin="1185,0,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <CheckBox x:Name="cBox_A_Neue_Liste" Content="Neue Liste erstellen" HorizontalAlignment="Left" Margin="927,310,0,0" VerticalAlignment="Top" FontSize="18" IsChecked="True" Click="CBox_A_Neue_Liste_Checked" RenderTransformOrigin="0.484,0.275" Width="204"/>
-        <Button x:Name="btn_Liste_Speichern" Content="Liste Erstellen" HorizontalAlignment="Left" Margin="927,492,0,0" VerticalAlignment="Top" Width="322" Height="42" FontSize="16" Click="Btn_Liste_Speichern_Click" FontWeight="Bold"/>
-        <CheckBox x:Name="cBox_Vorhandene_Liste_Laden" Content="Vorhandene List laden" HorizontalAlignment="Left" Margin="927,340,0,0" VerticalAlignment="Top" FontSize="18" Click="CBox_A_Neue_Liste_Checked" RenderTransformOrigin="0.484,0.275" Width="204" Checked="CBox_Vorhandene_Liste_Laden_Checked"/>
+        <CheckBox x:Name="cBox_A_Neue_Liste" Content="Neue Liste erstellen" HorizontalAlignment="Left" Margin="1199,398,0,0" VerticalAlignment="Top" FontSize="18" IsChecked="True" Click="CBox_A_Neue_Liste_Checked" RenderTransformOrigin="0.484,0.275" Width="204"/>
+        <Button x:Name="btn_Liste_Speichern" Content="Liste Erstellen" HorizontalAlignment="Left" Margin="1199,472,0,0" VerticalAlignment="Top" Width="322" Height="42" FontSize="16" Click="Btn_Liste_Speichern_Click" FontWeight="Bold"/>
+        <CheckBox x:Name="cBox_Vorhandene_Liste_Laden" Content="Vorhandene List laden" HorizontalAlignment="Left" Margin="1199,428,0,0" VerticalAlignment="Top" FontSize="18" Click="CBox_A_Neue_Liste_Checked" RenderTransformOrigin="0.484,0.275" Width="204" Checked="CBox_Vorhandene_Liste_Laden_Checked"/>
 
 
     </Grid>
