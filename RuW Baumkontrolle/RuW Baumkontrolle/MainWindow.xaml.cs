@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -25,26 +26,34 @@ namespace RuW_Baumkontrolle
     public partial class MainWindow : Window
     {
         //
+        //  Threads
+        //
+        Thread T_Speichern;
+
+
+        //
         //  Globale Bool Variablen
         //
         bool b_Neue_Liste = true;
+        bool b_Gespeichert = false;
 
         string aVz = Directory.GetCurrentDirectory();
         string aktLos = "";
 
         int aILB = -1;  //  Aktueller Index der Baumliste
+        int i_Tmp_List_Count = 0;
 
         List<string> L_Listen       = new List<string>();
         List<string> L_Temp         = new List<string>();
         List<string> L_Baeume_Los1  = new List<string>(); List<string> L_Baeume_Los1_Neu = new List<string>();
         List<string> L_Baeume_Los2  = new List<string>(); List<string> L_Baeume_Los2_Neu = new List<string>();
-        List<string> L_Baeume_Los3  = new List<string>();
-        List<string> L_Baeume_Los4  = new List<string>();
-        List<string> L_Baeume_Los5  = new List<string>();
-        List<string> L_Baeume_Los6  = new List<string>();
-        List<string> L_Baeume_Los7  = new List<string>();
-        List<string> L_Baeume_Los8  = new List<string>();
-        List<string> L_Baeume_Los9  = new List<string>();
+        List<string> L_Baeume_Los3  = new List<string>(); List<string> L_Baeume_Los3_Neu = new List<string>();
+        List<string> L_Baeume_Los4  = new List<string>(); List<string> L_Baeume_Los4_Neu = new List<string>();
+        List<string> L_Baeume_Los5  = new List<string>(); List<string> L_Baeume_Los5_Neu = new List<string>();
+        List<string> L_Baeume_Los6  = new List<string>(); List<string> L_Baeume_Los6_Neu = new List<string>();
+        List<string> L_Baeume_Los7  = new List<string>(); List<string> L_Baeume_Los7_Neu = new List<string>();
+        List<string> L_Baeume_Los8  = new List<string>(); List<string> L_Baeume_Los8_Neu = new List<string>();
+        List<string> L_Baeume_Los9  = new List<string>(); List<string> L_Baeume_Los9_Neu = new List<string>();
 
         System.Timers.Timer myTimer = new System.Timers.Timer();
 
@@ -62,6 +71,14 @@ namespace RuW_Baumkontrolle
         {   
             lbl_Aktuelles_Datum.Content = DateTime.Today.ToString("dd.MM.yyyy");
             Pruefe_Lokale_Listen("");
+
+            //
+            //  Thread starten
+            //
+            T_Speichern = new Thread(Baum_Speichern);
+            T_Speichern.Name = "Baum_Speichern";
+            T_Speichern.IsBackground = true;
+            T_Speichern.Start();
         }
 
         private void Waehle_Los(object sender, SelectionChangedEventArgs e)
@@ -101,21 +118,14 @@ namespace RuW_Baumkontrolle
                 //  12. Krone einkürzen/verschneiden
                 //  13. Leiter benötigt
                 //  14. Hebebühne benötigt
+                //  15. Bemerkungen
+                //  16. Preis
                 GroupBox_Baum.IsEnabled = true; string Baum = cBox_Baeume.SelectedItem.ToString();
-                int tmp_Baum_Zaehler = 0; List<string> tmp_Baumliste = new List<string>();
-                if (aktLos.Contains("Los 1")) { tmp_Baum_Zaehler = L_Baeume_Los1.Count; tmp_Baumliste = L_Baeume_Los1; }
-                else if (aktLos.Contains("Los 2")) { tmp_Baum_Zaehler = L_Baeume_Los2.Count; tmp_Baumliste = L_Baeume_Los2; }
-                else if (aktLos.Contains("Los 3")) { tmp_Baum_Zaehler = L_Baeume_Los3.Count; tmp_Baumliste = L_Baeume_Los3; }
-                else if (aktLos.Contains("Los 4")) { tmp_Baum_Zaehler = L_Baeume_Los4.Count; tmp_Baumliste = L_Baeume_Los4; }
-                else if (aktLos.Contains("Los 5")) { tmp_Baum_Zaehler = L_Baeume_Los5.Count; tmp_Baumliste = L_Baeume_Los5; }
-                else if (aktLos.Contains("Los 6")) { tmp_Baum_Zaehler = L_Baeume_Los6.Count; tmp_Baumliste = L_Baeume_Los6; }
-                else if (aktLos.Contains("Los 7")) { tmp_Baum_Zaehler = L_Baeume_Los7.Count; tmp_Baumliste = L_Baeume_Los7; }
-                else if (aktLos.Contains("Los 8")) { tmp_Baum_Zaehler = L_Baeume_Los8.Count; tmp_Baumliste = L_Baeume_Los8; }
-                else { tmp_Baum_Zaehler = L_Baeume_Los9.Count; tmp_Baumliste = L_Baeume_Los9; }
+                Gib_Aktuelles_Los_Zurueck(false);
 
-                for (int i = 0; i < tmp_Baum_Zaehler; i++) //(string s in L_Baeume_Los2)
+                for (int i = 0; i < i_Tmp_List_Count; i++)
                 {
-                    string s = tmp_Baumliste[i];
+                    string s = L_Temp[i];
                     if (s.Contains(Baum))
                     {
                         aILB = i;
@@ -131,7 +141,8 @@ namespace RuW_Baumkontrolle
                         lbl_Kronendruchmesser.Content = Baumdaten[4];
                         lbl_Lat_Name.Content = Baumdaten[5];
                         lbl_Deu_Name.Content = Baumdaten[6];
-                        if(Baumdaten.Count() > 10)
+                        cBox_Preis.SelectedIndex = -1;
+                        if (Baumdaten.Count() > 10)
                         {
                             if (Baumdaten[6].Contains("True")) chkB_1_Baum_Nicht_Da.IsChecked = true; else chkB_1_Baum_Nicht_Da.IsChecked = false;
                             if (Baumdaten[7].Contains("True")) chkB_2_Totholzbeseitigung.IsChecked = true; else chkB_2_Totholzbeseitigung.IsChecked = false;
@@ -146,7 +157,7 @@ namespace RuW_Baumkontrolle
                         else
                         {
                             chkB_1_Baum_Nicht_Da.IsChecked = false; chkB_2_Totholzbeseitigung.IsChecked = false; chkB_3_Lichte_Hoehe_25.IsChecked = false; chkB_4_Lichte_Hoehe_45.IsChecked = false;
-                            chkB_5_Lichtraumprofil.IsChecked = false; chkB_6_Baumfaellung.IsChecked = false; chkB_7_Krone_Kuerzen.IsChecked = false; chkB_8_Leiter_Benoetigt.IsChecked = false; chkB_9_Hebebuehne_Benoetigt.IsChecked = false;
+                            chkB_5_Lichtraumprofil.IsChecked = false; chkB_6_Baumfaellung.IsChecked = false; chkB_7_Krone_Kuerzen.IsChecked = false; chkB_8_Leiter_Benoetigt.IsChecked = false; chkB_9_Hebebuehne_Benoetigt.IsChecked = false; 
                         }
                         break;
                     }
@@ -267,7 +278,7 @@ namespace RuW_Baumkontrolle
 
         private string Erstelle_Neue_Eintrag()
         {
-            string s_Temp = "";
+            string s_Temp = ""; string s_Preis = cBox_Preis.SelectionBoxItem.ToString();
 
             bool BNV = false; if (chkB_1_Baum_Nicht_Da.IsChecked == true) BNV = true; else BNV = false;         //  Baum nicht vorhanden
             bool THB = false; if (chkB_2_Totholzbeseitigung.IsChecked == true) THB = true; else THB = false;    //  Totholbeseitigung
@@ -278,15 +289,11 @@ namespace RuW_Baumkontrolle
             bool KEV = false; if (chkB_7_Krone_Kuerzen.IsChecked == true) KEV = true; else KEV = false;         //  Krone einkürzen/verschneiden
             bool LBT = false; if (chkB_8_Leiter_Benoetigt.IsChecked == true) LBT = true; else LBT = false;      //  Leiter benötigt
             bool HBT = false; if (chkB_9_Hebebuehne_Benoetigt.IsChecked == true) HBT = true; else HBT = false;  //  Hebebühne benötigt
+            bool PRE = false; if (cBox_Preis.SelectedIndex == -1) s_Preis = "0 €";                 //  Preis benötigt
             s_Temp = "Baum nicht vorhanden:" + BNV + "|Totholbeseitigung:" + THB + "|Lichte Höhe 2,5m:" + LH2 + "|Lichte Höhe 4,5m:" + LH4 + "|Lichtraumprofil:" + LRP +
-                "|Baumfällung:" + BFG + "|Krone einkürzen/verschneiden:" + KEV + "|Leiter benötigt:" + LBT + "|Hebebühne benötigt:" + LBT + "|Bemerkungen:" + textBox.Text;
+                "|Baumfällung:" + BFG + "|Krone einkürzen/verschneiden:" + KEV + "|Leiter benötigt:" + LBT + "|Hebebühne benötigt:" + LBT + "|Bemerkungen:" + txtBox_Bemerkungen.Text + "|Preis:" + s_Preis;
 
             return s_Temp;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(L_Baeume_Los2.Count.ToString());
         }
 
         //###########################################################################################################################################
@@ -307,12 +314,8 @@ namespace RuW_Baumkontrolle
 
         private void Btn_Baum_Speichern_Click(object sender, RoutedEventArgs e)
         {
-            L_Baeume_Los2_Neu = L_Baeume_Los2;
-            if(L_Baeume_Los2_Neu.Count > 0) {
-                string tmp = L_Baeume_Los2_Neu[aILB];
-                L_Baeume_Los2_Neu[aILB] = tmp + Erstelle_Neue_Eintrag();
-            }
-
+            Gib_Aktuelles_Los_Zurueck(true);
+            b_Gespeichert = true;
         }
 
         private void Btn_Liste_Speichern_Click(object sender, RoutedEventArgs e)
@@ -326,10 +329,29 @@ namespace RuW_Baumkontrolle
                 {
                     if (b_Neue_Liste)
                     {
-                        using (TextWriter tw = new StreamWriter("Baumkontrolle_" + aktLos + "_" + lbl_Aktuelles_Datum.Content + ".txt"))
+                        if(File.Exists("Baumkontrolle_" + aktLos + "_" + lbl_Aktuelles_Datum.Content + ".txt"))
                         {
-                            foreach (String s in L_Baeume_Los2_Neu)
-                                tw.WriteLine(s);
+                            DialogResult result2 = MessageBox.Show("Es gibt bereits eine Liste mit dem Namen:\n\nBaumkontrolle_" + aktLos + "_" + lbl_Aktuelles_Datum.Content + "\n\nSoll diese überschrieben werden?",
+                                                                 "Bestehende Liste überschreiben?",
+                                                                 MessageBoxButtons.YesNo);
+                            if (result2 == System.Windows.Forms.DialogResult.Yes)
+                            {
+                                using (TextWriter tw = new StreamWriter("Baumkontrolle_" + aktLos + "_" + lbl_Aktuelles_Datum.Content + ".txt"))
+                                {
+                                    Gib_Aktuelles_Los_Zurueck(false);
+                                    foreach (String s in L_Temp)
+                                        tw.WriteLine(s);
+                                }
+                            }
+                            else
+                            {
+                                using (TextWriter tw = new StreamWriter("Baumkontrolle_" + aktLos + "_" + lbl_Aktuelles_Datum.Content + "_" + DateTime.Now.ToString("HH_mm_ss") +".txt"))
+                                {
+                                    Gib_Aktuelles_Los_Zurueck(false);
+                                    foreach (String s in L_Temp)
+                                        tw.WriteLine(s);
+                                }
+                            }
                         }
                         MessageBox.Show("Die Liste wurde erfolgreich angelegt.\nSie ist unter folgendem Pfad zu finden:\n\n" + aVz);
                     }
@@ -340,6 +362,19 @@ namespace RuW_Baumkontrolle
                 }   //  Ende catch
             }   //  Ende ob "Ja" gewählt wurde   
         }   //  Ende Mehtode Liste speichern
+
+        private void Gib_Aktuelles_Los_Zurueck(bool _Neu_Anlegen)
+        {
+            if (aktLos.Contains("Los 1")) { i_Tmp_List_Count = L_Baeume_Los2.Count; L_Temp = L_Baeume_Los1; if (_Neu_Anlegen) { L_Baeume_Los1_Neu = L_Baeume_Los1; string tmp = L_Baeume_Los1_Neu[aILB]; L_Baeume_Los1_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
+            else if (aktLos.Contains("Los 2")) { i_Tmp_List_Count = L_Baeume_Los2.Count; L_Temp = L_Baeume_Los2; if (_Neu_Anlegen) { L_Baeume_Los2_Neu = L_Baeume_Los2; string tmp = L_Baeume_Los2_Neu[aILB]; L_Baeume_Los2_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
+            else if (aktLos.Contains("Los 3")) { i_Tmp_List_Count = L_Baeume_Los3.Count; L_Temp = L_Baeume_Los3; if (_Neu_Anlegen) { L_Baeume_Los3_Neu = L_Baeume_Los3; string tmp = L_Baeume_Los3_Neu[aILB]; L_Baeume_Los3_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
+            else if (aktLos.Contains("Los 4")) { i_Tmp_List_Count = L_Baeume_Los4.Count; L_Temp = L_Baeume_Los4; if (_Neu_Anlegen) { L_Baeume_Los4_Neu = L_Baeume_Los4; string tmp = L_Baeume_Los4_Neu[aILB]; L_Baeume_Los4_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
+            else if (aktLos.Contains("Los 5")) { i_Tmp_List_Count = L_Baeume_Los5.Count; L_Temp = L_Baeume_Los5; if (_Neu_Anlegen) { L_Baeume_Los5_Neu = L_Baeume_Los5; string tmp = L_Baeume_Los5_Neu[aILB]; L_Baeume_Los5_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
+            else if (aktLos.Contains("Los 6")) { i_Tmp_List_Count = L_Baeume_Los6.Count; L_Temp = L_Baeume_Los6; if (_Neu_Anlegen) { L_Baeume_Los6_Neu = L_Baeume_Los6; string tmp = L_Baeume_Los6_Neu[aILB]; L_Baeume_Los6_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
+            else if (aktLos.Contains("Los 7")) { i_Tmp_List_Count = L_Baeume_Los7.Count; L_Temp = L_Baeume_Los7; if (_Neu_Anlegen) { L_Baeume_Los7_Neu = L_Baeume_Los7; string tmp = L_Baeume_Los7_Neu[aILB]; L_Baeume_Los7_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
+            else if (aktLos.Contains("Los 8")) { i_Tmp_List_Count = L_Baeume_Los8.Count; L_Temp = L_Baeume_Los8; if (_Neu_Anlegen) { L_Baeume_Los8_Neu = L_Baeume_Los8; string tmp = L_Baeume_Los8_Neu[aILB]; L_Baeume_Los8_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
+            else { i_Tmp_List_Count = L_Baeume_Los9.Count; L_Temp = L_Baeume_Los9; if (_Neu_Anlegen) { L_Baeume_Los9_Neu = L_Baeume_Los9; string tmp = L_Baeume_Los9_Neu[aILB]; L_Baeume_Los9_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
+        }
 
         private void CBox_Vorhandene_Liste_Laden_Checked(object sender, RoutedEventArgs e)
         {
@@ -369,11 +404,26 @@ namespace RuW_Baumkontrolle
         }   //  Ende Methode 
 
 
+        private void Baum_Speichern()
+        {
+            while (true)
+            {
+                if (b_Gespeichert)
+                {
+                    btn_Baum_Speichern.Dispatcher.Invoke((Action)delegate{ btn_Baum_Speichern.Background = Brushes.Green; });
+                    Thread.Sleep(1000);
+                    btn_Baum_Speichern.Dispatcher.Invoke((Action)delegate { btn_Baum_Speichern.Background = Brushes.White; });
+                    b_Gespeichert = false;
+                }
+                Thread.Sleep(200);
+            }
+        }
+
         private void DisplayTimeEvent(object source, ElapsedEventArgs e)
         {
             App.Current.Dispatcher.Invoke((Action)delegate
             {
-                lbl_Aktuelle_Uhrzeit.Content = DateTime.Now.ToString("hh:mm:ss");
+                lbl_Aktuelle_Uhrzeit.Content = DateTime.Now.ToString("HH:mm:ss");
             });
 
             // lbl_Aktuelle_Uhrzeit.Content = DateTime.Now.ToString("hh:mm:ss");

@@ -17,8 +17,8 @@
                 <CheckBox Content="Lichte Höhe (2,5m)" Height="22" HorizontalAlignment="Left" Margin="10,70,0,0" x:Name="chkB_3_Lichte_Hoehe_25" VerticalAlignment="Top" FontSize="18" Width="190" />
                 <CheckBox Content="Lichte Höhe (4,5m)" Height="22" HorizontalAlignment="Left" Margin="10,100,0,0" x:Name="chkB_4_Lichte_Hoehe_45" VerticalAlignment="Top" FontSize="18" Width="171"/>
                 <CheckBox Content="Lichtraumprofil" Height="22" HorizontalAlignment="Left" Margin="10,130,0,0" x:Name="chkB_5_Lichtraumprofil" VerticalAlignment="Top" Width="154" FontSize="18"/>
-                <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="124" Margin="450,207,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" Background="#FFF7EAEA"/>
-                <Label x:Name="label" Content="Bemerkungen:" HorizontalAlignment="Left" Margin="450,171,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="124"/>
+                <TextBox x:Name="txtBox_Bemerkungen" HorizontalAlignment="Left" Height="124" Margin="450,207,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" Background="#FFF7EAEA"/>
+                <Label x:Name="label" Content="Bemerkungen:" HorizontalAlignment="Left" Margin="450,171,0,0" VerticalAlignment="Top" FontSize="18" Height="42" Width="124"/>
                 <CheckBox Content="Baum nicht vorhanden" Height="22" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="chkB_1_Baum_Nicht_Da" VerticalAlignment="Top" Width="224" FontSize="18"/>
                 <CheckBox Content="Baumfällung" Height="22" HorizontalAlignment="Left" Margin="10,160,0,0" x:Name="chkB_6_Baumfaellung" VerticalAlignment="Top" Width="190" FontSize="18"/>
                 <CheckBox Content="Krone einkürzen/verschneiden" Height="22" HorizontalAlignment="Left" Margin="10,230,0,0" x:Name="chkB_7_Krone_Kuerzen" VerticalAlignment="Top" Width="267" FontSize="18"/>
@@ -39,7 +39,13 @@
                 <Label x:Name="label_Copy4" Content="Lateinischer Name:" HorizontalAlignment="Left" Margin="274,75,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="169"/>
                 <Label x:Name="lbl_Deu_Name" Content="xxxx" HorizontalAlignment="Left" Margin="450,100,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="266"/>
                 <Label x:Name="lbl_Deu_Name12" Content="Deutscher Name:" HorizontalAlignment="Left" Margin="274,100,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="169"/>
-                <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="737,84,0,0" VerticalAlignment="Top" Width="107" FontSize="16" Height="41">
+                <ComboBox x:Name="cBox_Preis" HorizontalAlignment="Left" Margin="737,84,0,0" VerticalAlignment="Top" Width="107" FontSize="16" Height="41" BorderBrush="#FFE8DE0A">
+                    <ComboBox.Background>
+                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                            <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                            <GradientStop Color="#FFC51E1E" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ComboBox.Background>
                     <ComboBoxItem Content="15€" HorizontalAlignment="Right" Width="282" FontSize="16"/>
                     <ComboBoxItem Content="25€" HorizontalAlignment="Right" Width="282" FontSize="16"/>
                     <ComboBoxItem Content="50€" HorizontalAlignment="Right" Width="282" FontSize="16"/>
