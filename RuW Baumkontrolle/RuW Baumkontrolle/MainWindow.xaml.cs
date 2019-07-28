@@ -371,14 +371,10 @@ namespace RuW_Baumkontrolle
 
         private void DisplayTimeEvent(object source, ElapsedEventArgs e)
         {
-            MethodInvoker inv = delegate
+            App.Current.Dispatcher.Invoke((Action)delegate
             {
-                this.lbl_Aktuelle_Uhrzeit.Content = DateTime.Now.ToString("hh:mm:ss");
-            };
-
-            this.Invoke(inv);
-
-            if(this.)
+                lbl_Aktuelle_Uhrzeit.Content = DateTime.Now.ToString("hh:mm:ss");
+            });
 
             // lbl_Aktuelle_Uhrzeit.Content = DateTime.Now.ToString("hh:mm:ss");
         }
