@@ -54,6 +54,9 @@ namespace RuW_Baumkontrolle
         List<string> L_Baeume_Los7  = new List<string>(); List<string> L_Baeume_Los7_Neu = new List<string>();
         List<string> L_Baeume_Los8  = new List<string>(); List<string> L_Baeume_Los8_Neu = new List<string>();
         List<string> L_Baeume_Los9  = new List<string>(); List<string> L_Baeume_Los9_Neu = new List<string>();
+        List<string> L_Baeume_Los10 = new List<string>(); List<string> L_Baeume_Los10_Neu = new List<string>();
+        List<string> L_Baeume_Los11 = new List<string>(); List<string> L_Baeume_Los11_Neu = new List<string>();
+        List<string> L_Baeume_Los12 = new List<string>(); List<string> L_Baeume_Los12_Neu = new List<string>();
 
         System.Timers.Timer myTimer = new System.Timers.Timer();
 
@@ -94,7 +97,51 @@ namespace RuW_Baumkontrolle
                 if (text.Contains("Los 2"))
                     foreach (string s in L_Baeume_Los2)
                         if(s.Length > 0)
-                            cBox_Baeume.Items.Add(s.Substring(0, s.IndexOf('|')));          
+                            cBox_Baeume.Items.Add(s.Substring(0, s.IndexOf('|')));
+                if (text.Contains("Los 3"))
+                    foreach (string s in L_Baeume_Los3)
+                        if (s.Length > 0)
+                            cBox_Baeume.Items.Add(s.Substring(0, s.IndexOf('|')));
+                if (text.Contains("Los 4"))
+                    foreach (string s in L_Baeume_Los4)
+                        if (s.Length > 0)
+                            cBox_Baeume.Items.Add(s.Substring(0, s.IndexOf('|')));
+                if (text.Contains("Los 5"))
+                    foreach (string s in L_Baeume_Los5)
+                        if (s.Length > 0)
+                            cBox_Baeume.Items.Add(s.Substring(0, s.IndexOf('|')));
+                if (text.Contains("Los 6"))
+                    foreach (string s in L_Baeume_Los6)
+                        if (s.Length > 0)
+                            cBox_Baeume.Items.Add(s.Substring(0, s.IndexOf('|')));
+                if (text.Contains("Los 3"))
+                    foreach (string s in L_Baeume_Los3)
+                        if (s.Length > 0)
+                            cBox_Baeume.Items.Add(s.Substring(0, s.IndexOf('|')));
+                if (text.Contains("Los 7"))
+                    foreach (string s in L_Baeume_Los7)
+                        if (s.Length > 0)
+                            cBox_Baeume.Items.Add(s.Substring(0, s.IndexOf('|')));
+                if (text.Contains("Los 8"))
+                    foreach (string s in L_Baeume_Los8)
+                        if (s.Length > 0)
+                            cBox_Baeume.Items.Add(s.Substring(0, s.IndexOf('|')));
+                if (text.Contains("Los 9"))
+                    foreach (string s in L_Baeume_Los9)
+                        if (s.Length > 0)
+                            cBox_Baeume.Items.Add(s.Substring(0, s.IndexOf('|')));
+                if (text.Contains("Los 10"))
+                    foreach (string s in L_Baeume_Los10)
+                        if (s.Length > 0)
+                            cBox_Baeume.Items.Add(s.Substring(0, s.IndexOf('|')));
+                if (text.Contains("Los 11"))
+                    foreach (string s in L_Baeume_Los11)
+                        if (s.Length > 0)
+                            cBox_Baeume.Items.Add(s.Substring(0, s.IndexOf('|')));
+                if (text.Contains("Los 12"))
+                    foreach (string s in L_Baeume_Los12)
+                        if (s.Length > 0)
+                            cBox_Baeume.Items.Add(s.Substring(0, s.IndexOf('|')));
             }
         }
 
@@ -221,6 +268,9 @@ namespace RuW_Baumkontrolle
                         if (file.Name.Contains("Los_7_")) { cBox_Los.Items.Add("Los 7"); L_Baeume_Los7 = Lese_Baeume(file.Name); }
                         if (file.Name.Contains("Los_8_")) { cBox_Los.Items.Add("Los 8"); L_Baeume_Los8 = Lese_Baeume(file.Name); }
                         if (file.Name.Contains("Los_9_")) { cBox_Los.Items.Add("Los 9"); L_Baeume_Los9 = Lese_Baeume(file.Name); }
+                        if (file.Name.Contains("Los_10_")) { cBox_Los.Items.Add("Los 10"); L_Baeume_Los10 = Lese_Baeume(file.Name); }
+                        if (file.Name.Contains("Los_11_")) { cBox_Los.Items.Add("Los 11"); L_Baeume_Los11 = Lese_Baeume(file.Name); }
+                        if (file.Name.Contains("Los_12_")) { cBox_Los.Items.Add("Los 12"); L_Baeume_Los12 = Lese_Baeume(file.Name); }
                     }
                 }
                 catch (Exception e_Pruefe_Lokale_Liste)
@@ -248,6 +298,12 @@ namespace RuW_Baumkontrolle
                     L_Baeume_Los8 = L_Temp;
                 if (_Liste.Contains("Los9"))
                     L_Baeume_Los9 = L_Temp;
+                if (_Liste.Contains("Los9"))
+                    L_Baeume_Los10 = L_Temp;
+                if (_Liste.Contains("Los9"))
+                    L_Baeume_Los11 = L_Temp;
+                if (_Liste.Contains("Los9"))
+                    L_Baeume_Los12 = L_Temp;
             }
         }
 
@@ -373,7 +429,10 @@ namespace RuW_Baumkontrolle
             else if (aktLos.Contains("Los 6")) { i_Tmp_List_Count = L_Baeume_Los6.Count; L_Temp = L_Baeume_Los6; if (_Neu_Anlegen) { L_Baeume_Los6_Neu = L_Baeume_Los6; string tmp = L_Baeume_Los6_Neu[aILB]; L_Baeume_Los6_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
             else if (aktLos.Contains("Los 7")) { i_Tmp_List_Count = L_Baeume_Los7.Count; L_Temp = L_Baeume_Los7; if (_Neu_Anlegen) { L_Baeume_Los7_Neu = L_Baeume_Los7; string tmp = L_Baeume_Los7_Neu[aILB]; L_Baeume_Los7_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
             else if (aktLos.Contains("Los 8")) { i_Tmp_List_Count = L_Baeume_Los8.Count; L_Temp = L_Baeume_Los8; if (_Neu_Anlegen) { L_Baeume_Los8_Neu = L_Baeume_Los8; string tmp = L_Baeume_Los8_Neu[aILB]; L_Baeume_Los8_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
-            else { i_Tmp_List_Count = L_Baeume_Los9.Count; L_Temp = L_Baeume_Los9; if (_Neu_Anlegen) { L_Baeume_Los9_Neu = L_Baeume_Los9; string tmp = L_Baeume_Los9_Neu[aILB]; L_Baeume_Los9_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
+            else if (aktLos.Contains("Los 9")) { i_Tmp_List_Count = L_Baeume_Los9.Count; L_Temp = L_Baeume_Los9; if (_Neu_Anlegen) { L_Baeume_Los9_Neu = L_Baeume_Los9; string tmp = L_Baeume_Los9_Neu[aILB]; L_Baeume_Los9_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
+            else if (aktLos.Contains("Los 10")) { i_Tmp_List_Count = L_Baeume_Los10.Count; L_Temp = L_Baeume_Los10; if (_Neu_Anlegen) { L_Baeume_Los10_Neu = L_Baeume_Los10; string tmp = L_Baeume_Los10_Neu[aILB]; L_Baeume_Los10_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
+            else if (aktLos.Contains("Los 11")) { i_Tmp_List_Count = L_Baeume_Los11.Count; L_Temp = L_Baeume_Los11; if (_Neu_Anlegen) { L_Baeume_Los11_Neu = L_Baeume_Los11; string tmp = L_Baeume_Los11_Neu[aILB]; L_Baeume_Los11_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
+            else { i_Tmp_List_Count = L_Baeume_Los12.Count; L_Temp = L_Baeume_Los12; if (_Neu_Anlegen) { L_Baeume_Los12_Neu = L_Baeume_Los12; string tmp = L_Baeume_Los12_Neu[aILB]; L_Baeume_Los12_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
         }
 
         private void CBox_Vorhandene_Liste_Laden_Checked(object sender, RoutedEventArgs e)
