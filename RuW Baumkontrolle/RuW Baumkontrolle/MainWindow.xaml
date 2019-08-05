@@ -5,20 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RuW_Baumkontrolle"
         mc:Ignorable="d"
-        Title="Ritter &amp; Wagner GbR - Baumkontrolle" Height="586.103" Width="1736.173" WindowStartupLocation="CenterScreen" Icon="Bilder/Plant.ico" FontSize="16" ResizeMode="NoResize">
+        Title="Ritter &amp; Wagner GbR - Baumkontrolle" Height="586.103" Width="1243.258" WindowStartupLocation="CenterScreen" Icon="Bilder/Plant.ico" FontSize="16" ResizeMode="NoResize">
     <Grid Height="548" VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1226*"/>
+            <ColumnDefinition Width="11*"/>
+        </Grid.ColumnDefinitions>
         <ComboBox x:Name="cBox_Los" HorizontalAlignment="Left" Margin="20,30,0,0" VerticalAlignment="Top" Width="298" Height="36" SelectionChanged="Waehle_Los" FontSize="16" IsReadOnly="True">
         </ComboBox>
         <ComboBox x:Name="cBox_Baeume" HorizontalAlignment="Left" Margin="341,30,0,0" VerticalAlignment="Top" Width="298" Height="36" SelectionChanged="Waehle_Baum" FontSize="16" IsReadOnly="True"/>
 
-        <GroupBox Header="Bestandsaufnahme im Detail" Height="436"  Name="GroupBox_Baum" VerticalAlignment="Top" FontSize="14" IsEnabled="False" Margin="20,99,190,0">
+        <GroupBox Header="Bestandsaufnahme im Detail" Height="436"  Name="GroupBox_Baum" VerticalAlignment="Top" FontSize="14" IsEnabled="False" Margin="20,99,0,0" HorizontalAlignment="Left" Width="858">
             <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="729*"/>
+                    <ColumnDefinition Width="779*"/>
+                </Grid.ColumnDefinitions>
                 <CheckBox Content="Totholzbeseitigung" Height="22" HorizontalAlignment="Left" Margin="10,40,0,0" x:Name="chkB_2_Totholzbeseitigung" VerticalAlignment="Top" FontSize="18" Width="190" />
                 <CheckBox Content="Lichte Höhe (2,5m)" Height="22" HorizontalAlignment="Left" Margin="10,70,0,0" x:Name="chkB_3_Lichte_Hoehe_25" VerticalAlignment="Top" FontSize="18" Width="190" />
                 <CheckBox Content="Lichte Höhe (4,5m)" Height="22" HorizontalAlignment="Left" Margin="10,100,0,0" x:Name="chkB_4_Lichte_Hoehe_45" VerticalAlignment="Top" FontSize="18" Width="171"/>
                 <CheckBox Content="Lichtraumprofil" Height="22" HorizontalAlignment="Left" Margin="10,130,0,0" x:Name="chkB_5_Lichtraumprofil" VerticalAlignment="Top" Width="154" FontSize="18"/>
-                <TextBox x:Name="txtBox_Bemerkungen" HorizontalAlignment="Left" Height="124" Margin="450,207,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" Background="#FFF7EAEA"/>
-                <Label x:Name="label" Content="Bemerkungen:" HorizontalAlignment="Left" Margin="450,171,0,0" VerticalAlignment="Top" FontSize="18" Height="42" Width="124"/>
+                <TextBox x:Name="txtBox_Bemerkungen" HorizontalAlignment="Left" Height="124" Margin="282,207,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="275" Background="#FFF7EAEA" Grid.ColumnSpan="2"/>
+                <Label x:Name="label" Content="Bemerkungen:" HorizontalAlignment="Left" Margin="285,160,0,0" VerticalAlignment="Top" FontSize="18" Height="42" Width="124"/>
                 <CheckBox Content="Baum nicht vorhanden" Height="22" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="chkB_1_Baum_Nicht_Da" VerticalAlignment="Top" Width="224" FontSize="18"/>
                 <CheckBox Content="Baumfällung" Height="22" HorizontalAlignment="Left" Margin="10,160,0,0" x:Name="chkB_6_Baumfaellung" VerticalAlignment="Top" Width="190" FontSize="18"/>
                 <CheckBox Content="Krone einkürzen/verschneiden" Height="22" HorizontalAlignment="Left" Margin="10,230,0,0" x:Name="chkB_7_Krone_Kuerzen" VerticalAlignment="Top" Width="267" FontSize="18"/>
@@ -30,16 +38,16 @@
                 <Label x:Name="label_Copy1" Content="Alter:" HorizontalAlignment="Left" Margin="274,25,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="47"/>
                 <Label x:Name="label_Copy2" Content="Höhe:" HorizontalAlignment="Left" Margin="274,50,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="52"/>
                 <Label x:Name="lbl_Hoehe" Content="xxxx" HorizontalAlignment="Left" Margin="450,50,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="84"/>
-                <Label x:Name="lbl_Durchmesser" Content="xxxx" HorizontalAlignment="Left" Margin="801,0,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="64"/>
-                <Label x:Name="label_Copy3" Content="Durchmesser in 1,3m Höhe:" HorizontalAlignment="Left" Margin="553,0,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="233"/>
-                <Label x:Name="lbl_Kronendruchmesser" Content="xxxx" HorizontalAlignment="Left" Margin="801,25,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="64"/>
-                <Label x:Name="label_Copy7" Content="Kronendruchmesser:" HorizontalAlignment="Left" Margin="553,25,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="200"/>
-                <Button x:Name="btn_Baum_Speichern" Content="Baumdaten speichern" HorizontalAlignment="Left" Margin="450,351,0,0" VerticalAlignment="Top" Width="402" FontSize="18" Height="43" Click="Btn_Baum_Speichern_Click" FontWeight="Bold"/>
-                <Label x:Name="lbl_Lat_Name" Content="xxxx" HorizontalAlignment="Left" Margin="450,75,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="266"/>
-                <Label x:Name="label_Copy4" Content="Lateinischer Name:" HorizontalAlignment="Left" Margin="274,75,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="169"/>
-                <Label x:Name="lbl_Deu_Name" Content="xxxx" HorizontalAlignment="Left" Margin="450,100,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="266"/>
-                <Label x:Name="lbl_Deu_Name12" Content="Deutscher Name:" HorizontalAlignment="Left" Margin="274,100,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="169"/>
-                <ComboBox x:Name="cBox_Preis" HorizontalAlignment="Left" Margin="737,84,0,0" VerticalAlignment="Top" Width="107" FontSize="16" Height="41" BorderBrush="#FFE8DE0A">
+                <Label x:Name="lbl_Durchmesser" Content="xxxx" HorizontalAlignment="Left" Margin="72.234,0,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="64" Grid.Column="1"/>
+                <Label x:Name="label_Copy3" Content="Durchmesser in 1,3m Höhe:" HorizontalAlignment="Left" Margin="553,0,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="233" Grid.ColumnSpan="2"/>
+                <Label x:Name="lbl_Kronendruchmesser" Content="xxxx" HorizontalAlignment="Left" Margin="72.234,25,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="64" Grid.Column="1"/>
+                <Label x:Name="label_Copy7" Content="Kronendruchmesser:" HorizontalAlignment="Left" Margin="553,25,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="200" Grid.ColumnSpan="2"/>
+                <Button x:Name="btn_Baum_Speichern" Content="Baumdaten speichern" HorizontalAlignment="Left" Margin="282,346,0,0" VerticalAlignment="Top" Width="275" FontSize="18" Height="43" Click="Btn_Baum_Speichern_Click" FontWeight="Bold" Grid.ColumnSpan="2"/>
+                <Label x:Name="lbl_Lat_Name" Content="xxxx" HorizontalAlignment="Left" Margin="72,75,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="266" Grid.Column="1"/>
+                <Label x:Name="label_Copy4" Content="Lateinischer Name:" HorizontalAlignment="Left" Margin="274,75,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="176" Grid.ColumnSpan="2"/>
+                <Label x:Name="lbl_Deu_Name" Content="xxxx" HorizontalAlignment="Left" Margin="72,100,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="266" Grid.Column="1"/>
+                <Label x:Name="lbl_Deu_Name12" Content="Deutscher Name:" HorizontalAlignment="Left" Margin="274,100,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="176" Grid.ColumnSpan="2"/>
+                <ComboBox x:Name="cBox_Preis" HorizontalAlignment="Left" Margin="305,168,0,0" VerticalAlignment="Top" Width="107" FontSize="16" Height="41" BorderBrush="#FFE8DE0A" Grid.Column="1">
                     <ComboBox.Background>
                         <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                             <GradientStop Color="#FFF0F0F0" Offset="0"/>
@@ -64,19 +72,21 @@
                     <ComboBoxItem Content="450€" HorizontalAlignment="Right" Width="282" FontSize="16"/>
                     <ComboBoxItem Content="500€" HorizontalAlignment="Right" Width="282" FontSize="16"/>
                 </ComboBox>
-                <Label x:Name="label_Copy5" Content="Preis:" HorizontalAlignment="Left" Margin="790,52,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="56" FontWeight="Bold" Background="#FFFFFF96"/>
+                <Label x:Name="label_Copy5" Content="Preis:" HorizontalAlignment="Left" Margin="358,136,0,0" VerticalAlignment="Top" FontSize="18" Height="31" Width="56" FontWeight="Bold" Background="#FFFFFF96" Grid.Column="1"/>
             </Grid>
         </GroupBox>
-        <Image x:Name="image" HorizontalAlignment="Left" Height="237" Margin="1480,10,0,0" VerticalAlignment="Top" Width="240" Source="Bilder/Baum.png" Stretch="Fill"/>
-        <Label x:Name="label1" Content="Auswahl des Loses (AK)" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <Label x:Name="label1_Copy" Content="Auswahl der Baumnummer" HorizontalAlignment="Left" Margin="346,0,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <Label x:Name="label1_Copy1" Content="Aktuelles Datum:" HorizontalAlignment="Left" Margin="1049,0,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <Label x:Name="lbl_Aktuelles_Datum" Content="xx.xx.xxxx" HorizontalAlignment="Left" Margin="1185,0,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <CheckBox x:Name="cBox_A_Neue_Liste" Content="Neue Liste erstellen" HorizontalAlignment="Left" Margin="1199,398,0,0" VerticalAlignment="Top" FontSize="18" IsChecked="True" Click="CBox_A_Neue_Liste_Checked" RenderTransformOrigin="0.484,0.275" Width="204"/>
-        <Button x:Name="btn_Liste_Speichern" Content="Liste Erstellen" HorizontalAlignment="Left" Margin="1199,472,0,0" VerticalAlignment="Top" Width="322" Height="42" FontSize="16" Click="Btn_Liste_Speichern_Click" FontWeight="Bold"/>
-        <CheckBox x:Name="cBox_Vorhandene_Liste_Laden" Content="Vorhandene List laden" HorizontalAlignment="Left" Margin="1199,428,0,0" VerticalAlignment="Top" FontSize="18" Click="CBox_A_Neue_Liste_Checked" RenderTransformOrigin="0.484,0.275" Width="204" Checked="CBox_Vorhandene_Liste_Laden_Checked"/>
-        <Label x:Name="label1_Copy2" Content="Aktuelle Uhrzeit:" HorizontalAlignment="Left" Margin="1049,24,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <Label x:Name="lbl_Aktuelle_Uhrzeit" Content="xx.xx.xxxx" HorizontalAlignment="Left" Margin="1185,24,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Image x:Name="image" Height="237" Margin="980,10,3,0" VerticalAlignment="Top" Source="Bilder/Baum.png" Stretch="Fill" Grid.ColumnSpan="2"/>
+        <Label x:Name="label1" Content="Auswahl des Loses (AK)" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top" FontSize="16" Height="31" Width="175"/>
+        <Label x:Name="label1_Copy" Content="Auswahl der Baumnummer" HorizontalAlignment="Left" Margin="346,0,0,0" VerticalAlignment="Top" FontSize="16" Height="31" Width="201"/>
+        <Label x:Name="label1_Copy1" Content="Aktuelles Datum:" HorizontalAlignment="Left" Margin="651,6,0,0" VerticalAlignment="Top" FontSize="16" Height="31" Width="129"/>
+        <Label x:Name="lbl_Aktuelles_Datum" Content="xx.xx.xxxx" HorizontalAlignment="Left" Margin="787,6,0,0" VerticalAlignment="Top" FontSize="16" Width="102" Height="31"/>
+        <CheckBox x:Name="cBox_A_Neue_Liste" Content="Neue Liste erstellen" HorizontalAlignment="Left" Margin="600,392,0,0" VerticalAlignment="Top" FontSize="18" IsChecked="True" Click="CBox_A_Neue_Liste_Checked" RenderTransformOrigin="0.484,0.275" Width="204" Height="23"/>
+        <Button x:Name="btn_Liste_Speichern" Content="Liste Erstellen" HorizontalAlignment="Left" Margin="600,465,0,0" VerticalAlignment="Top" Width="259" Height="42" FontSize="16" Click="Btn_Liste_Speichern_Click" FontWeight="Bold"/>
+        <CheckBox x:Name="cBox_Vorhandene_Liste_Laden" Content="Vorhandene List laden" HorizontalAlignment="Left" Margin="600,422,0,0" VerticalAlignment="Top" FontSize="18" Click="CBox_A_Neue_Liste_Checked" RenderTransformOrigin="0.484,0.275" Width="204" Checked="CBox_Vorhandene_Liste_Laden_Checked" Height="23"/>
+        <Label x:Name="label1_Copy2" Content="Aktuelle Uhrzeit:" HorizontalAlignment="Left" Margin="651,30,0,0" VerticalAlignment="Top" FontSize="16" Height="31" Width="126"/>
+        <Label x:Name="lbl_Aktuelle_Uhrzeit" Content="xx.xx.xxxx" HorizontalAlignment="Left" Margin="787,30,0,0" VerticalAlignment="Top" FontSize="16" Width="102" Height="31"/>
+        <ListBox x:Name="LB_Bish_Baueme" HorizontalAlignment="Left" Height="235" Margin="897,288,0,0" VerticalAlignment="Top" Width="295" PreviewMouseDoubleClick="ListBox_PreviewMouseDoubleClick"/>
+        <Label x:Name="label1_Copy3" Content="Ältere Kontrollen:" HorizontalAlignment="Left" Margin="897,257,0,0" VerticalAlignment="Top" FontSize="16" Height="31" Width="143"/>
 
 
     </Grid>

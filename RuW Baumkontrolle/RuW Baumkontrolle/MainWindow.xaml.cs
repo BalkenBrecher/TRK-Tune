@@ -34,8 +34,9 @@ namespace RuW_Baumkontrolle
         //
         //  Globale Bool Variablen
         //
-        bool b_Neue_Liste = true;
-        bool b_Gespeichert = false;
+        bool b_Neue_Liste   = true;
+        bool b_Gespeichert  = false;
+        bool b_Liste_laden  = false;
 
         string aVz = Directory.GetCurrentDirectory();
         string aktLos = "";
@@ -74,13 +75,14 @@ namespace RuW_Baumkontrolle
         {   
             lbl_Aktuelles_Datum.Content = DateTime.Today.ToString("dd.MM.yyyy");
             Pruefe_Lokale_Listen("");
+            Pruefe_Auf_Andere_Listen();
 
             //
             //  Thread starten
             //
-            T_Speichern = new Thread(Baum_Speichern);
-            T_Speichern.Name = "Baum_Speichern";
-            T_Speichern.IsBackground = true;
+            T_Speichern                 = new Thread(Baum_Speichern);
+            T_Speichern.Name            = "Baum_Speichern";
+            T_Speichern.IsBackground    = true;
             T_Speichern.Start();
         }
 
@@ -88,7 +90,7 @@ namespace RuW_Baumkontrolle
         {
             if(cBox_Los.SelectedIndex != -1)
             { 
-                string text = cBox_Los.SelectedItem.ToString(); aktLos = text.Substring(text.LastIndexOf(':') + 1);
+                string text = cBox_Los.SelectedItem.ToString(); aktLos = text.Substring(text.LastIndexOf(':') + 1); b_Liste_laden = false;
                 cBox_Baeume.Items.Clear();
                 if (text.Contains("Los 1"))
                     foreach (string s in L_Baeume_Los1)
@@ -168,7 +170,10 @@ namespace RuW_Baumkontrolle
                 //  15. Bemerkungen
                 //  16. Preis
                 GroupBox_Baum.IsEnabled = true; string Baum = cBox_Baeume.SelectedItem.ToString();
-                Gib_Aktuelles_Los_Zurueck(false);
+                if (!b_Liste_laden)
+                    Gib_Aktuelles_Los_Zurueck(false);
+                else
+                    i_Tmp_List_Count = L_Temp.Count();
 
                 for (int i = 0; i < i_Tmp_List_Count; i++)
                 {
@@ -189,21 +194,36 @@ namespace RuW_Baumkontrolle
                         lbl_Lat_Name.Content = Baumdaten[5];
                         lbl_Deu_Name.Content = Baumdaten[6];
                         cBox_Preis.SelectedIndex = -1;
+
+                        
+
                         if (Baumdaten.Count() > 10)
                         {
-                            if (Baumdaten[6].Contains("True")) chkB_1_Baum_Nicht_Da.IsChecked = true; else chkB_1_Baum_Nicht_Da.IsChecked = false;
-                            if (Baumdaten[7].Contains("True")) chkB_2_Totholzbeseitigung.IsChecked = true; else chkB_2_Totholzbeseitigung.IsChecked = false;
-                            if (Baumdaten[8].Contains("True")) chkB_3_Lichte_Hoehe_25.IsChecked = true; else chkB_3_Lichte_Hoehe_25.IsChecked = false;
-                            if (Baumdaten[9].Contains("True")) chkB_4_Lichte_Hoehe_45.IsChecked = true; else chkB_4_Lichte_Hoehe_45.IsChecked = false;
-                            if (Baumdaten[10].Contains("True")) chkB_5_Lichtraumprofil.IsChecked = true; else chkB_5_Lichtraumprofil.IsChecked = false;
-                            if (Baumdaten[11].Contains("True")) chkB_6_Baumfaellung.IsChecked = true; else chkB_6_Baumfaellung.IsChecked = false;
-                            if (Baumdaten[12].Contains("True")) chkB_7_Krone_Kuerzen.IsChecked = true; else chkB_7_Krone_Kuerzen.IsChecked = false;
-                            if (Baumdaten[13].Contains("True")) chkB_8_Leiter_Benoetigt.IsChecked = true; else chkB_8_Leiter_Benoetigt.IsChecked = false;
-                            if (Baumdaten[14].Contains("True")) chkB_9_Hebebuehne_Benoetigt.IsChecked = true; else chkB_9_Hebebuehne_Benoetigt.IsChecked = false;
+                            if (Baumdaten[7].Contains("True")) chkB_1_Baum_Nicht_Da.IsChecked = true; else chkB_1_Baum_Nicht_Da.IsChecked = false;
+                            if (Baumdaten[8].Contains("True")) chkB_2_Totholzbeseitigung.IsChecked = true; else chkB_2_Totholzbeseitigung.IsChecked = false;
+                            if (Baumdaten[9].Contains("True")) chkB_3_Lichte_Hoehe_25.IsChecked = true; else chkB_3_Lichte_Hoehe_25.IsChecked = false;
+                            if (Baumdaten[10].Contains("True")) chkB_4_Lichte_Hoehe_45.IsChecked = true; else chkB_4_Lichte_Hoehe_45.IsChecked = false;
+                            if (Baumdaten[11].Contains("True")) chkB_5_Lichtraumprofil.IsChecked = true; else chkB_5_Lichtraumprofil.IsChecked = false;
+                            if (Baumdaten[12].Contains("True")) chkB_6_Baumfaellung.IsChecked = true; else chkB_6_Baumfaellung.IsChecked = false;
+                            if (Baumdaten[13].Contains("True")) chkB_7_Krone_Kuerzen.IsChecked = true; else chkB_7_Krone_Kuerzen.IsChecked = false;
+                            if (Baumdaten[14].Contains("True")) chkB_8_Leiter_Benoetigt.IsChecked = true; else chkB_8_Leiter_Benoetigt.IsChecked = false;
+                            if (Baumdaten[15].Contains("True")) chkB_9_Hebebuehne_Benoetigt.IsChecked = true; else chkB_9_Hebebuehne_Benoetigt.IsChecked = false;
+                            txtBox_Bemerkungen.Text = Baumdaten[16].ToString().Substring(12);
+
+                            for(int a = 0; a < cBox_Preis.Items.Count; a++)
+                            {
+                                if (cBox_Preis.Items[a].ToString().Contains(Baumdaten[17].ToString().Substring(6)))    
+                                {
+                                    cBox_Preis.SelectedIndex = a;
+                                    break;
+                                }
+                            }
+
+
                         }
                         else
                         {
-                            chkB_1_Baum_Nicht_Da.IsChecked = false; chkB_2_Totholzbeseitigung.IsChecked = false; chkB_3_Lichte_Hoehe_25.IsChecked = false; chkB_4_Lichte_Hoehe_45.IsChecked = false;
+                            chkB_1_Baum_Nicht_Da.IsChecked = false; chkB_2_Totholzbeseitigung.IsChecked = false; chkB_3_Lichte_Hoehe_25.IsChecked = false; chkB_4_Lichte_Hoehe_45.IsChecked = false; txtBox_Bemerkungen.Text = "";
                             chkB_5_Lichtraumprofil.IsChecked = false; chkB_6_Baumfaellung.IsChecked = false; chkB_7_Krone_Kuerzen.IsChecked = false; chkB_8_Leiter_Benoetigt.IsChecked = false; chkB_9_Hebebuehne_Benoetigt.IsChecked = false; 
                         }
                         break;
@@ -392,21 +412,30 @@ namespace RuW_Baumkontrolle
                                                                  MessageBoxButtons.YesNo);
                             if (result2 == System.Windows.Forms.DialogResult.Yes)
                             {
-                                using (TextWriter tw = new StreamWriter("Baumkontrolle_" + aktLos + "_" + lbl_Aktuelles_Datum.Content + ".txt"))
+                                using (TextWriter tw = new StreamWriter("Baumkontrolle_" + aktLos + "_N_" + lbl_Aktuelles_Datum.Content + ".txt"))
+                                {      
+                                    Gib_Aktuelles_Los_Zurueck(false);
+                                    foreach (String s in L_Temp) 
+                                        tw.WriteLine(s); 
+                                }
+                            }
+                            else
+                            {
+                                using (TextWriter tw = new StreamWriter("Baumkontrolle_" + aktLos + "_N_" + lbl_Aktuelles_Datum.Content + "_" + DateTime.Now.ToString("HH_mm_ss") +".txt"))
                                 {
                                     Gib_Aktuelles_Los_Zurueck(false);
                                     foreach (String s in L_Temp)
                                         tw.WriteLine(s);
                                 }
                             }
-                            else
+                        }
+                        else
+                        {
+                            using (TextWriter tw = new StreamWriter("Baumkontrolle_" + aktLos + "_N_" + lbl_Aktuelles_Datum.Content + ".txt"))
                             {
-                                using (TextWriter tw = new StreamWriter("Baumkontrolle_" + aktLos + "_" + lbl_Aktuelles_Datum.Content + "_" + DateTime.Now.ToString("HH_mm_ss") +".txt"))
-                                {
-                                    Gib_Aktuelles_Los_Zurueck(false);
-                                    foreach (String s in L_Temp)
-                                        tw.WriteLine(s);
-                                }
+                                Gib_Aktuelles_Los_Zurueck(false);
+                                foreach (String s in L_Temp)
+                                    tw.WriteLine(s);
                             }
                         }
                         MessageBox.Show("Die Liste wurde erfolgreich angelegt.\nSie ist unter folgendem Pfad zu finden:\n\n" + aVz);
@@ -435,14 +464,64 @@ namespace RuW_Baumkontrolle
             else { i_Tmp_List_Count = L_Baeume_Los12.Count; L_Temp = L_Baeume_Los12; if (_Neu_Anlegen) { L_Baeume_Los12_Neu = L_Baeume_Los12; string tmp = L_Baeume_Los12_Neu[aILB]; L_Baeume_Los12_Neu[aILB] = tmp + Erstelle_Neue_Eintrag(); } }
         }
 
+        //###########################################################################################################################################
+        //++++++++++++
+        //
+        //  Liste laden und verarbeiten
+        //
+        //++++++++++++
+        //###########################################################################################################################################
+
+        private void Pruefe_Auf_Andere_Listen()
+        {
+            try
+            {
+                DirectoryInfo d = new DirectoryInfo(aVz);
+                FileInfo[] Files = d.GetFiles("*.txt");
+                foreach (FileInfo file in Files)
+                {
+                    if (file.Name.Contains("_N_")) {
+                        LB_Bish_Baueme.Items.Add(file.Name);
+                    }
+                }
+            }
+            catch (Exception e_Pruefe_Lokale_Liste)
+            {
+                MessageBox.Show("Fehler beim Prüfen der Lokalen Dateien:\n\n" + e_Pruefe_Lokale_Liste);
+            }   //  Ende catch
+        }
+
+        private void ListBox_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DialogResult result2 = MessageBox.Show("Soll die Liste mit dem Namen:\n\n" + LB_Bish_Baueme.SelectedItem.ToString() + "\n\ngeladen werden?",
+                                                                 "Bestehende Liste laden?",
+                                                                 MessageBoxButtons.YesNo);
+            if (result2 == System.Windows.Forms.DialogResult.Yes)
+            {
+                try
+                {
+                    L_Temp = Lese_Baeume(LB_Bish_Baueme.SelectedItem.ToString()); b_Liste_laden = true;
+                    foreach (string s in L_Temp)
+                    {
+                        if (s.Length > 0)
+                            cBox_Baeume.Items.Add(s.Substring(0, s.IndexOf('|')));
+                    }
+                }
+                catch (Exception e_Vorh_Liste_Laden)
+                {
+                    MessageBox.Show("Fehler beim laden der bestehenden Liste:\n\n" + LB_Bish_Baueme.SelectedItem.ToString() + "\n\n" + e_Vorh_Liste_Laden);
+                }
+            }
+        }
+
         private void CBox_Vorhandene_Liste_Laden_Checked(object sender, RoutedEventArgs e)
         {
-            Stream myStream = null; 
-            OpenFileDialog theDialog = new OpenFileDialog();
-            theDialog.Title = "Eine bestehende Baumkontrollliste laden";
-            theDialog.Filter = "txt Dateien|*.txt";
-            theDialog.InitialDirectory = aVz;
-            if (theDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            Stream myStream             = null; 
+            OpenFileDialog theDialog    = new OpenFileDialog();
+            theDialog.Title             = "Eine bestehende Baumkontrollliste laden";
+            theDialog.Filter            = "txt Dateien|*.txt";
+            theDialog.InitialDirectory  = aVz;
+            if (theDialog.ShowDialog()  == System.Windows.Forms.DialogResult.OK)
             {
                 try
                 {
@@ -458,7 +537,12 @@ namespace RuW_Baumkontrolle
                 catch (Exception ex)
                 {
                     MessageBox.Show("Fehler! Konnte die Datei nicht lesen. Eine genauere Fehlerbeschreibung:\n\n" + ex.Message);
+                    cBox_Vorhandene_Liste_Laden.IsChecked = false;
                 }
+            }
+            else
+            {
+                cBox_Vorhandene_Liste_Laden.IsChecked = false;
             }
         }   //  Ende Methode 
 
@@ -484,8 +568,7 @@ namespace RuW_Baumkontrolle
             {
                 lbl_Aktuelle_Uhrzeit.Content = DateTime.Now.ToString("HH:mm:ss");
             });
-
-            // lbl_Aktuelle_Uhrzeit.Content = DateTime.Now.ToString("hh:mm:ss");
         }
+
     }
 }
