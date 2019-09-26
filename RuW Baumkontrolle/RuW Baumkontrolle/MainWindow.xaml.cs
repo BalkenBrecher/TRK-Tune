@@ -515,12 +515,12 @@ namespace RuW_Baumkontrolle
                 {
                     gew_Liste = LB_Bish_Baueme.SelectedItem.ToString();
                     L_Temp = Lese_Baeume(gew_Liste); b_Liste_laden = true;
-                    //Console.WriteLine("Größe: " + L_Temp.Count() + " Wert an Stelle 0: " + L_Temp[0]);
+                    Console.WriteLine("Größe: " + L_Temp.Count() + " Wert an Stelle 0: " + L_Temp[0]);
                     foreach (string s in L_Temp)
                     {
                         if (s.Length > 0 && s.Contains("|"))
                         {
-                            Console.WriteLine(s);
+                            //Console.WriteLine(s);
                             cBox_Baeume.Items.Add(s.Substring(0, s.IndexOf('|')));
                         }
                     }
