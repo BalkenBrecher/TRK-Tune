@@ -41,6 +41,7 @@ namespace RuW_Baumkontrolle
         string aVz = Directory.GetCurrentDirectory();
         string aktLos = "";
         string gew_Liste = "";
+        string T_Dateiname = "";
 
         int aILB = -1;  //  Aktueller Index der Baumliste
         int i_Tmp_List_Count = 0;
@@ -514,11 +515,14 @@ namespace RuW_Baumkontrolle
                 {
                     gew_Liste = LB_Bish_Baueme.SelectedItem.ToString();
                     L_Temp = Lese_Baeume(gew_Liste); b_Liste_laden = true;
-                    Console.WriteLine("Größe: " + L_Temp.Count() + " Wert an Stelle 0: " + L_Temp[0]);
+                    //Console.WriteLine("Größe: " + L_Temp.Count() + " Wert an Stelle 0: " + L_Temp[0]);
                     foreach (string s in L_Temp)
-                    {                
-                        if (s.Length > 0)
+                    {
+                        if (s.Length > 0 && s.Contains("|"))
+                        {
+                            Console.WriteLine(s);
                             cBox_Baeume.Items.Add(s.Substring(0, s.IndexOf('|')));
+                        }
                     }
                     cBox_Los.SelectedIndex = -1; cBox_Baeume.SelectedIndex = 0;
                 }
@@ -544,6 +548,7 @@ namespace RuW_Baumkontrolle
                     {
                         using (myStream)
                         {
+                            T_Dateiname = theDialog.FileName;
                             L_Temp = Lese_Baeume(theDialog.FileName);
                             Pruefe_Lokale_Listen(theDialog.FileName);
                         }
@@ -620,7 +625,8 @@ namespace RuW_Baumkontrolle
 
             while (i < _Los.Count)
             {
-                string[] l_tmp = _Los[i].Split('|'); 
+                string[] l_tmp = _Los[i].Split('|');
+                //Console.WriteLine(l_tmp[0] + " | " + l_tmp.Length + " | " + _Los.Count);
                 if (l_tmp.Count() > 8)
                 {
                     string mas = "";
@@ -635,7 +641,6 @@ namespace RuW_Baumkontrolle
                     for (int y = 0; y != 7; y++)
                     {
                         xlWorkSheet.Cells[a, 1 + y] = l_tmp[y];
-                        Console.WriteLine(l_tmp[y]);
                     }
                     xlWorkSheet.Cells[a, 8] = mas;
                     xlWorkSheet.Cells[a, 9] = l_tmp[17].Substring(l_tmp[17].IndexOf(":") + 1, l_tmp[17].Length - l_tmp[17].IndexOf(":") - 1);
@@ -647,6 +652,7 @@ namespace RuW_Baumkontrolle
                     xlWorkSheet.Cells[a, 8] = "0";
                     for (int z = 0; z != 8; z++)
                     {
+                        //Console.WriteLine("Wert von z: " + z +" wert von a: " + a + " l_tmp: " + l_tmp.Length + " der Wert: " + l_tmp[0] );
                         xlWorkSheet.Cells[a, 1 + z] = l_tmp[z];
                     }
                     a++;
@@ -655,10 +661,10 @@ namespace RuW_Baumkontrolle
             }
             xlWorkSheet.Columns.AutoFit();
             string name_Los = "";
-            if(cBox_Los.SelectedIndex != -1)
+            if (cBox_Los.SelectedIndex != -1)
                 name_Los = cBox_Los.SelectedItem.ToString();
             else
-                name_Los = gew_Liste;
+                { name_Los = T_Dateiname.Substring(T_Dateiname.IndexOf("_") + 1); name_Los = name_Los.Substring(0, name_Los.IndexOf("_")); }
 
             xlWorkSheet.Cells[1, 1] = "Ritter & Wagner GbR - Baumliste " + name_Los;
             xlWorkSheet.Columns.ClearFormats();
@@ -705,10 +711,7 @@ namespace RuW_Baumkontrolle
             }
             else
             {
-                List<string> tmp = new List<string>();
-                for (int i = 0; i < cBox_Baeume.Items.Count; i++)
-                    tmp.Add(cBox_Baeume.Items.IndexOf(i).ToString());
-                Erstelle_Excel(tmp);
+                Erstelle_Excel(L_Temp);  
             }
                 
         }
